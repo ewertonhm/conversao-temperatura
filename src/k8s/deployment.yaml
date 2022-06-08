@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: converttemp
+spec:
+  replicas: 20
+  selector:
+    matchLabels:
+      app: converttemp
+  template:
+    metadata:
+      labels:
+        app: converttemp
+    spec:
+      containers:
+        - name: converttemp
+          image: ewertonmarschalk/conversao-temperatura:v3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: converttemp
+spec:
+  selector:
+    app: converttemp
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30001
+  type: NodePort
